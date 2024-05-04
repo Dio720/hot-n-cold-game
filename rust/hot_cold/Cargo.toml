@@ -1,5 +1,5 @@
 [package]
-name = "Hot and cold"
+name = "hot_cold"
 version = "0.1.0"
 edition = "2021"
 
