@@ -1,5 +1,7 @@
 # Hot and Cold
 
+> Work in progress, is not runnable
+
 Hot or cold. Your goal is the guess a secret integer between 1 and N . You repeatedly
 guess integers between 1 and N . After each guess you learn if it equals the secret integer (and
 the game stops); otherwise (starting with the second guess), you learn if the guess is hotter
