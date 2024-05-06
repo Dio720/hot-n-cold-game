@@ -17,7 +17,7 @@ impl Config {
     }
 }
 
-fn rules_message(number: u32) {
+fn rules_message(maybe_num: Option<u32>) { 
     let welcome_msg = "Welcome to the Hot-Cold Guess game, copyright 2024.";
     let separator1 = "=".repeat(welcome_msg.len());
     let separator2 = "-".repeat(welcome_msg.len());
@@ -31,9 +31,7 @@ fn rules_message(number: u32) {
         the previous guess).
         * If you wish to quit the game, just type in a negative number.
     Good luck!
-    "},
-        number
-    );
+    "}, maybe_num.unwrap_or(42));
     println!("{}{}{}", header, body, separator2);
 }
 
@@ -50,7 +48,6 @@ fn setup_cli() -> ArgMatches {
             Arg::new("number")
                 .help("I’ll choose a random number between [1,number]. Your job is to guess that number.")
                 .value_parser(value_parser!(u32))
-                .required(true)
                 .index(1),
         )
         .arg(
@@ -76,11 +73,17 @@ fn setup_cli() -> ArgMatches {
 fn parse_args() -> Option<Config> {
     let matches = setup_cli();
 
-    let rule_flag = matches.get_flag("rules");
+    let rule_flag = matches.get_flag("rules"); 
 
     if let Some(number) = matches.get_one::<u32>("number") {
         let hard = matches.get_flag("hard");
+        if rule_flag {
+            rules_message(Some(*number));
+        } 
         return Some(Config::new(*number, hard, rule_flag));
+    }
+    if rule_flag {
+        rules_message(None);
     }
     None
 }
